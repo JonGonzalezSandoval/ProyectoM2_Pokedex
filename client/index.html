@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="icon" type="image/png" href="./media/pokeball.png">
+    <title>Mi Pokedex</title>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar">
+        <div class="nav_logo">
+          <a href="index.html"> </a>
+          <h1>Banco Pokemon</h1>
+        </div>
+        <div class="nav_loginForm">
+          <input type="text" placeholder="username" id="username"/>
+          <input type="password" placeholder="password" id="password"/>
+          <button class="log" id="loginUser">Login</button>
+          
+        </div>
+        <div id="Dropdown-Box">
+          <div class="nav_dropdown">
+            <button class="dropdown-button" id="dropdown-button">Menu</button>
+            <div class="dropdown-content" id="dropdown-content">
+              <a href="#" id="actualPage">Pokedex Completa</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <div class="pagination">
+        <button id="prevPage"><</button>
+        <div class="pageMenu" id="pageMenu">
+          <!-- Page numbers will be displayed here dynamically -->
+        </div>
+        <button id="nextPage">></button>
+      </div>
+      <div class="container" id="container">
+        
+      </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script src="./js/scriptFetchs.js"></script>
+  </body>
+</html>

@@ -11,8 +11,6 @@ export class DbManagerController {
         try{
 
             await Promise.all([await this.dbManagerService.createEverything()]);
-
-
             
             return res.status(200).send("Todo se ha creado de puta madre")
         }catch(e){

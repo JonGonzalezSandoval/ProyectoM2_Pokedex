@@ -16,7 +16,7 @@ export class PokemonService {
             let objectToReturn;
             let before = null
             let after = null;
-            console.log(typeof start);
+            console.log(range);
             
             let limiteSuperior = 0;
             let limiteInferior = 0;

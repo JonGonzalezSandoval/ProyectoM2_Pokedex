@@ -7,7 +7,7 @@ export class PokemonController {
 
     constructor(private readonly pokemonService: PokemonService) {}
 
-    /*TODO*/
+    
 
     @Get("paginated")
     async getPokemonPaginated(@Response() res: any, @Query('range') range, @Query('offset') offset){

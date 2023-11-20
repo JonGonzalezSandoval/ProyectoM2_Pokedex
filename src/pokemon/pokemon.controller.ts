@@ -7,8 +7,6 @@ export class PokemonController {
 
     constructor(private readonly pokemonService: PokemonService) {}
 
-    /*TODO*/
-
     @Get("paginated")
     async getPokemonPaginated(@Response() res: any, @Query('range') range, @Query('offset') offset){
         
@@ -17,14 +15,10 @@ export class PokemonController {
         if(range !== undefined) defaultRange = parseInt(range)
         if(offset !== undefined) defaultStart = parseInt(offset)
 
-
         let cosa = await this.pokemonService.getPokemonPaginated(defaultRange, defaultStart);
-
-        // console.log(cosa);
 
         return res.status(200).send(cosa)
     }
-
 
     @UseGuards(JwtAuthGuard)
     @Get("captured/:userId")

@@ -10,7 +10,7 @@ export class PokemonTypesService {
 
     async getAllTypes():Promise<any>{
 
-        this.pokemonTypeModel.find()
+        return await this.pokemonTypeModel.find({})
     }
 
 

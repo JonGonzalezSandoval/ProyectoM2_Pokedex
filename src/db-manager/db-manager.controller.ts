@@ -12,9 +12,9 @@ export class DbManagerController {
 
             await Promise.all([await this.dbManagerService.createEverything()]);
             
-            return res.status(200).send("Todo se ha creado de puta madre")
+            return res.status(200).send("db filled correctly")
         }catch(e){
-            return res.status(e).send("Casco algo, averígualo")
+            return res.status(e).send("error, no se que pasa")
         }
     }
 

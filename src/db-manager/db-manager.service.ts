@@ -366,6 +366,8 @@ export class DbManagerService {
     }
   }
 
+  
+
   async createEverything(): Promise<any> {
     try {
       // const promises = await Promise.all([await this.getAllAbilities(), await this.getAllTypes()]);

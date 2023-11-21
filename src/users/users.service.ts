@@ -15,4 +15,8 @@ export class UsersService {
     async findOne(username: string): Promise<User>{
         return await this.userModel.findOne({username: username}).lean();
     }
+
+    // async findUser(username: string): Promise<User>{
+
+    // }
 }

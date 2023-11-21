@@ -10,7 +10,7 @@ export class AuthController {
     
     @UseGuards(LocalAuthGuard)
     @Post('login')
-    @HttpCode(HttpStatus.ACCEPTED   )
+    @HttpCode(HttpStatus.ACCEPTED)
     async login(@Request() req): Promise<any>{
         try{
             return this.authService.login(req.user);

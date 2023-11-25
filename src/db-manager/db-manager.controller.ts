@@ -50,9 +50,16 @@ export class DbManagerController {
         }
     }
 
+
+
+    @Get('/crearUsuariosDefault')
+    async createUsers(): Promise<any>{
+        return await this.dbManagerService.insertDefaultUsers();
+    }
+
     @Get('/test')
     async testRetrievingIDs(): Promise<any>{
-        return await this.dbManagerService.getAbilitiesID();
+        return await this.dbManagerService.testingThings("apego", 29);
     }
     
 }

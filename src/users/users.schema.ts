@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document, Schema as MongooseSchema } from "mongoose";
+import { Pokemon } from "src/pokemon/pokemon.schema";
 
 
 export type UserDocument = User & Document;
@@ -16,7 +17,10 @@ export class User{
     password: string;
 
     @Prop([{type: MongooseSchema.Types.ObjectId, ref: 'Pokemon'}])
-    capturedPokemon: string[];
+    capturedPokemon: Pokemon[];
+
+    @Prop([{type: MongooseSchema.Types.ObjectId, ref: 'Pokemon'}])
+    missingPokemon: Pokemon[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

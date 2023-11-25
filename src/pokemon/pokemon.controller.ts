@@ -31,4 +31,6 @@ export class PokemonController {
         return res.status(200).send(cosa)
     }
 
+    
+
 }

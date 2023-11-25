@@ -11,6 +11,7 @@ import {
   PokemonType,
   PokemonTypeSchema,
 } from 'src/pokemon-types/pokemon-types.schema';
+import { User, UserSchema } from 'src/users/users.schema';
 
 @Module({
   imports: [
@@ -26,6 +27,10 @@ import {
       {
         name: PokemonType.name,
         schema: PokemonTypeSchema,
+      },
+      {
+        name: User.name,
+        schema: UserSchema,
       },
     ]),
   ],

@@ -14,6 +14,7 @@ import {
   PokemonTypeDocument,
 } from 'src/pokemon-types/pokemon-types.schema';
 import { Pokemon, PokemonDocument } from 'src/pokemon/pokemon.schema';
+import { User, UserDocument } from 'src/users/users.schema';
 
 @Injectable()
 export class DbManagerService {
@@ -30,6 +31,7 @@ export class DbManagerService {
     private pokemonTypeModel: Model<PokemonTypeDocument>,
     @InjectModel(PokemonAbility.name)
     private pokemonAbilityModel: Model<PokemonAbilityDocument>,
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
   ) {}
 
   /* *********************************************** POKEMON *************************************************************** */
@@ -49,7 +51,7 @@ export class DbManagerService {
           packOfPokemon = [...this.checkValidPokemonForms(packOfPokemon)];
           pokeApiUrl = null;
         }
-        this.allPokemon.push(...packOfPokemon);        
+        this.allPokemon.push(...packOfPokemon);
         await this.createAllPokemonObjects();
         this.allPokemonObjects = this.allPokemonObjects.sort(
           (a, b) => a.pokedexNumber - b.pokedexNumber,
@@ -213,7 +215,8 @@ export class DbManagerService {
   /* **************************************************** HABILIDADES ************************************************************** */
 
   async getAllAbilities(): Promise<any> {
-    let pokeabilitiesUrl = 'https://pokeapi.co/api/v2/ability?limit=100000&offset=0';
+    let pokeabilitiesUrl =
+      'https://pokeapi.co/api/v2/ability?limit=100000&offset=0';
     let packofAbilities = [];
     await fetch(pokeabilitiesUrl)
       .then((res) => res.json())
@@ -282,6 +285,67 @@ export class DbManagerService {
 
   getAbilityNumber(type): number {
     return type.url.substring(34, type.url.length - 1);
+  }
+
+  /* ****************************************************** Usuarios **************************************************************** */
+
+  async createUserObject(
+    name,
+    username,
+    password,
+    quantity?: number,
+  ): Promise<any> 
+  {
+    try {
+      const pokemonIDList =
+        quantity === undefined
+          ? await this.fillUserArrayWithRandomPokemon(0)
+          : await this.fillUserArrayWithRandomPokemon(quantity);
+
+      const newUser = {
+        name: name,
+        username: username,
+        password: password,
+        capturedPokemon: pokemonIDList[0],
+        missingPokemon: pokemonIDList[1],
+      };
+      return newUser;
+    } catch (e) {
+      throw new NotFoundException(
+        'Error al crear los objeto de usuario default',
+      );
+    }
+  }
+
+  async fillUserArrayWithRandomPokemon(quantity): Promise<any[]> {
+    try {
+      console.log(quantity)
+
+      const listaPokemonCapturados = quantity === 0 
+      ? []
+      : 
+      await this.pokemonModel
+        .find({}, { _id: 1 })
+        .skip(251)
+        .limit(quantity)
+        .lean();
+
+      const faltos = await this.pokemonModel.find({}, { _id: 1 }).lean();
+
+      const tempCapturados = listaPokemonCapturados.map((pokemon) =>
+        pokemon._id.toString(),
+      );
+
+      const filtradoFinal = faltos.filter((faltaPokemon) => {
+        if (!tempCapturados.includes(faltaPokemon._id.toString())) {
+          return faltaPokemon;
+        }
+      });
+
+      return [listaPokemonCapturados, filtradoFinal];
+    } catch (e) {
+      throw new NotFoundException('Error al buscar los pokemon de la lista');
+    }
   }
 
   /* *****************************************************  GENERAL **************************************************************** */
@@ -366,7 +430,38 @@ export class DbManagerService {
     }
   }
 
-  
+  async insertDefaultUsers(): Promise<any> {
+    const admin = await this.createUserObject('admin', 'admin', 'admin');
+    const lorea = await this.createUserObject(
+      'lorea',
+      'lormar',
+      'flor',
+      134,
+    );
+
+    await this.userModel.insertMany([admin, lorea]);
+
+    /**
+     * * Este trocito de código busca todos los usuarios, lo más llamatibo es cómo funciona el populate para popular el array de id de pokemon que contiene, en este caso primerp se le asigna el path que usará, es decir, la propia array de id y a su vez se hace otro populate una vez asignado el path del primero sin salir del anterior para rellenar los campos que tiene pokemon con una id de distintas colecciones, es un ejemplo de como popular un campo de una colección que a su vez tiene campos de otra colección
+     * */
+    return await this.userModel.find({name: "loreaTest"})
+    .populate({
+      path: 'capturedPokemon',
+      populate: [
+        { path: 'pokemonType' },
+        { path: 'pokemonAbilities' },
+        { path: 'hiddenAbility' },
+      ]
+    })
+    .populate({
+      path: 'missingPokemon',
+      populate: [
+        { path: 'pokemonType' },
+        { path: 'pokemonAbilities' },
+        { path: 'hiddenAbility' },
+      ]
+    })
+  }
 
   async createEverything(): Promise<any> {
     try {
@@ -380,10 +475,17 @@ export class DbManagerService {
 
       // console.log('soy lo ultimo que tiene que pasar');
       await this.getAllPokemon();
+
+      await this.insertDefaultUsers();
     } catch (error) {
       console.log(error);
 
       throw new NotFoundException();
     }
+  }
+
+  testingThings(leona, alola?: number) {
+    console.log('Soy leona' + leona);
+    console.log('Soy alola' + alola + '. Soy de tipo ' + typeof alola);
   }
 }

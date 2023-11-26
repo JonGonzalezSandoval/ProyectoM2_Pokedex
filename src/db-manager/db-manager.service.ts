@@ -480,7 +480,7 @@ export class DbManagerService {
     } catch (error) {
       console.log(error);
 
-      throw new NotFoundException();
+      throw new Error(error);
     }
   }
 

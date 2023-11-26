@@ -26,8 +26,6 @@ export class PokemonController {
 
         let cosa = await this.pokemonService.getCapturedPaginated(userId);
 
-        // console.log(cosa);
-
         return res.status(200).send(cosa)
     }
 

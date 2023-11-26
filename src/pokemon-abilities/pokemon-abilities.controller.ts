@@ -10,6 +10,8 @@ export class PokemonAbilitiesController {
     try {
       const allAbilities = await this.abilityService.getAllAbilities();
       return allAbilities;
-    } catch (e) {}
+    } catch (e) {
+      throw new Error(e);
+    }
   }
 }

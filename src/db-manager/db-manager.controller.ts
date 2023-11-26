@@ -9,8 +9,9 @@ export class DbManagerController {
     @Get('/createAll')
     async createAll(@Response() res:any): Promise<any>{
         try{
-
+            console.log("i'm working")
             await Promise.all([await this.dbManagerService.createEverything()]);
+            console.log("finished working")
             
             return res.status(200).send("db filled correctly")
         }catch(e){

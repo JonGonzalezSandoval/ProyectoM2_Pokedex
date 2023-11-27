@@ -10,11 +10,11 @@ export class UsersService {
     constructor(@InjectModel(User.name) private userModel: Model<UserDocument>,
     @InjectModel(Pokemon.name) private pokemonModel:Model<PokemonDocument>){}
 
-    async newUser(name: string, username: string, password: string): Promise<void>{
+    async newUser(name: string, username: string, password: string): Promise<any>{
         const allPokemon = await this.pokemonModel.find({});
 
-        await this.userModel.create({name: name, username: username, password: password, capturedPokemon: [], missingPokemon: allPokemon});
-
+        let status = await this.userModel.create({name: name, username: username, password: password, capturedPokemon: [], missingPokemon: allPokemon});
+        return status;
     }
     
     async findAll(): Promise<any>{

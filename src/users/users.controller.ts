@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Post, Request, Response, Delete, Put } from '@nestjs/common';
+import { Controller, UseGuards, Post, Request, Response, Body, Delete, Put } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UsersDto } from './dto/users.dto/users.dto';
@@ -9,8 +9,15 @@ export class UsersController {
     constructor (private readonly userService:UsersService){}
 
     @Post("newUser")
-    async newUser(@Response() res:UsersDto){
-        
+    async newUser(@Body() user:UsersDto, @Response() res: any){
+        try {
+            let rBack = await this.userService.newUser(user.name, user.username, user.password);
+
+            return res.status(200).send(rBack);
+
+        } catch (error) {
+            
+        }
     }
 
     @UseGuards(JwtAuthGuard)

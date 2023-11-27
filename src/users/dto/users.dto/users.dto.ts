@@ -10,4 +10,6 @@ export class UsersDto {
 
     @IsString({message: "Your password must be a String of Alphanumeric Characters"})
     password: string;
+
+    
 }

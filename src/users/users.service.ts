@@ -25,7 +25,4 @@ export class UsersService {
         return await this.userModel.findOne({username: username}).lean();
     }
 
-    // async findUser(username: string): Promise<User>{
-
-    // }
 }

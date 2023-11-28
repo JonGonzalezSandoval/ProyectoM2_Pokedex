@@ -13,7 +13,7 @@ export class UsersController {
         try {
             let rBack = await this.userService.newUser(user.name, user.username, user.password);
 
-            return res.status(200).send(rBack);
+            return res.status(201).send(rBack);
 
         } catch (error) {
             
@@ -32,7 +32,7 @@ export class UsersController {
     }
 
     @Put("updateUser")
-    async updateUser(@Request() req){
+    async updateUser(@Request() req:any, @Body() body:UsersDto){
         try {
             
         } catch (error) {

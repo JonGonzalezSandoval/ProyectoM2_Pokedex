@@ -4,6 +4,7 @@ import { PokemonService } from './pokemon.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Pokemon, PokemonSchema } from './pokemon.schema';
 import { User, UserSchema } from 'src/users/users.schema';
+import { PokemonType, PokemonTypeSchema } from 'src/pokemon-types/pokemon-types.schema';
 
 @Module({
   imports: [
@@ -15,6 +16,10 @@ import { User, UserSchema } from 'src/users/users.schema';
       {
         name: User.name,
         schema: UserSchema,
+      },
+      {
+        name: PokemonType.name,
+        schema: PokemonTypeSchema,
       },
     ]),
   ],

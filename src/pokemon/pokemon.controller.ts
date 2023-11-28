@@ -1,4 +1,4 @@
-import { Controller, Get, Param, ParseIntPipe, Query, Response, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe, Query, Response, UseGuards, NotFoundException } from '@nestjs/common';
 import { PokemonService } from './pokemon.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
@@ -6,6 +6,18 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 export class PokemonController {
 
     constructor(private readonly pokemonService: PokemonService) {}
+    
+    @Get("unique/:name")
+    async getPokemon(@Response() res: any, @Param("name") name:string){
+        try {
+            const pokemon = await this.pokemonService.getPokemon(name);
+            console.log(pokemon)
+            return res.status(200).send(pokemon);
+        } catch (error) {
+            // return res.status(HttpStatus.NOT:).send()
+        }
+    }
+
 
     @Get("paginated")
     async getPokemonPaginated(@Response() res: any, @Query('range') range, @Query('offset') offset){
@@ -19,6 +31,7 @@ export class PokemonController {
 
         return res.status(200).send(cosa)
     }
+
 
     @UseGuards(JwtAuthGuard)
     @Get("captured/:userId")

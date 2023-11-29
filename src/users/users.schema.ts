@@ -19,8 +19,6 @@ export class User{
     @Prop([{type: MongooseSchema.Types.ObjectId, ref: 'Pokemon'}])
     capturedPokemon: Pokemon[];
 
-    @Prop([{type: MongooseSchema.Types.ObjectId, ref: 'Pokemon'}])
-    missingPokemon: Pokemon[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

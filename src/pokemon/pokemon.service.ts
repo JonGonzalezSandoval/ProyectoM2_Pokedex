@@ -21,7 +21,7 @@ export class PokemonService {
     let objectToReturn;
     let before = null;
     let after = null;
-    console.log(range);
+    // console.log(range);
 
     let limiteSuperior = 0;
     let limiteInferior = 0;
@@ -39,7 +39,7 @@ export class PokemonService {
 
     const listaPokesTotal = await this.pokemonModel.find({});
 
-    console.log('limiteInferior: ' + limiteInferior);
+    // console.log('limiteInferior: ' + limiteInferior);
 
     if (limiteInferior > 0) {
       // start -= 30
@@ -51,7 +51,7 @@ export class PokemonService {
 
     // console.log(limiteSuperior, listaPokesTotal.length);
 
-    console.log('limiteSuperior: ' + limiteSuperior);
+    // console.log('limiteSuperior: ' + limiteSuperior);
 
     if (limiteSuperior < listaPokesTotal.length) {
       after = `http://localhost:3000/api/pokemon/paginated?range=${range}&offset=${limiteSuperior}`;

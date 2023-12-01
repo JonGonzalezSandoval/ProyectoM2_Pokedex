@@ -10,10 +10,12 @@ import { join } from 'path';
 import { DbManagerModule } from './db-manager/db-manager.module';
 import { PokemonAbilitiesModule } from './pokemon-abilities/pokemon-abilities.module';
 import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://127.0.0.1:27017/pokedex'),
+    ConfigModule.forRoot(),
+    MongooseModule.forRoot(`mongodb+srv://jon:${process.env.MONGODB_PWD}@cluster0.5bpjxsd.mongodb.net/?retryWrites=true&w=majority`),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'client'),
     }),
